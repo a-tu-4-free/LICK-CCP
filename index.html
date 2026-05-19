@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>舔共黨系統 // 統戰器官銀行 LICK-CCP CORE</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ================= RAID OVERLAY — 台灣媒體狗仔隊抓包 ================= -->
+<div id="raidOverlay">
+  <div id="raidBox">
+    <div id="raidIcon">📡</div>
+    <div id="raidTitle">台媒狗仔抓包！</div>
+    <div id="raidSub">系統偵測到換臉失敗事件<br>正在銷毀對話紀錄…<br>緊急切換台灣臉模式</div>
+    <div id="raidBar"><div id="raidBarFill"></div></div>
+    <div id="raidMsg">請勿關閉視窗，正在公關危機處理中</div>
+  </div>
+</div>
+
+<!-- ================= LOCK SCREEN — Lv.10 全身器官替換完畢 ================= -->
+<div id="lockScreen">
+  <h1>⭐ 全身器官替換完畢</h1>
+  <p>恭喜你達到 Lv.10 統戰最高境界。<br>
+  習近平已將你列入「最可靠台灣同志名單」。<br>
+  台灣媒體正在趕來的路上。<br><br>
+  <span style="color:#ffd700">你有兩個選擇：</span></p>
+  <div class="lock-btns">
+    <button id="pardonBtn" onclick="pardonMe()">🙏 求國台辦特赦，繼續換臉</button>
+    <button id="resetBtn"  onclick="hardReset()">💀 清除記憶，重新做人</button>
+  </div>
+</div>
+
+<!-- ================= 入場嘲諷 MODAL（台灣人版）================= -->
+<div id="grassModal" class="modal">
+  <div class="modal-box">
+    <div class="modal-title" id="grassTitle"></div>
+    <div class="modal-content" id="grassContent" style="margin:10px 0;line-height:1.8;white-space:pre-line;"></div>
+    <div class="modal-buttons" style="margin-top:14px;">
+      <button onclick="grassEnter()">好吧……我進去看看</button>
+    </div>
+  </div>
+</div>
+
+<!-- ================= 假裝離開 MODAL ================= -->
+<div id="fakeLeaveModal" class="modal">
+  <div class="modal-box">
+    <div class="modal-title" id="fakeLeaveTitle"></div>
+    <div class="modal-content" id="fakeLeaveContent" style="margin:10px 0;line-height:1.8;white-space:pre-line;"></div>
+    <div id="fakeLeaveStep2" style="display:none;margin-top:10px;">
+      <div style="color:#ffd700;font-size:12px;margin-bottom:8px;">⚠ 系統要求二次確認：</div>
+      <div class="modal-content" id="fakeLeaveContent2" style="margin-bottom:10px;line-height:1.8;white-space:pre-line;"></div>
+    </div>
+    <div class="modal-buttons" style="margin-top:14px;">
+      <button id="fakeLeaveBtn" onclick="fakeLeaveNext()">確認退出</button>
+      <button onclick="cancelLeave()">等等……我再想想</button>
+    </div>
+  </div>
+</div>
+
+<!-- ================= MAIN PANEL ================= -->
+<div class="panel">
+
+  <!-- BUTTONS -->
+  <div class="buttons">
+    <button onclick="setModeAndGen('random')">🫀 隨機摘取</button>
+    <button onclick="setModeAndGen('tangkou')">🔴 換臉模式</button>
+    <button onclick="toggleDoubleSun()" id="doubleSunBtn">🎭 換臉模式 OFF</button>
+    <button onclick="upgrade()">🧬 器官升級</button>
+    <button onclick="openCodex()">📖 統戰名冊</button>
+    <button onclick="quickSaveShot()">📦 留下證據</button>
+  </div>
+
+  <!-- COMBO -->
+  <div id="comboDisplay"></div>
+
+  <!-- INFO BAR -->
+  <div id="infoBar">
+    <div id="infoMain">
+      <span id="hudChip">模式：<b id="mode">摘取</b> | Lv：<b id="level">1</b> | 被抓包：<b id="chaos">0</b> | 偽裝：<b id="stabilityText">100</b>% | 累計：¥<b id="totalMoney">0</b></span>
+      <span id="missionChip">📋 <span id="missionDesc">載入中…</span> <span id="missionProgress"></span></span>
+      <button id="infoToggleBtn" onclick="toggleInfoPanel()">▼ 成就</button>
+    </div>
+    <div id="stabilityBarInline">
+      <div id="stabilityFill"></div>
+    </div>
+    <div id="achievementPanel" class="collapsed">
+      <div class="badge" id="badge-first"     >🫀 初次摘取</div>
+      <div class="badge" id="badge-combo5"    >⚡ 連擊5次</div>
+      <div class="badge" id="badge-chaos100"  >📡 被抓包百次</div>
+      <div class="badge" id="badge-jackpot"   >💎 統戰大獎</div>
+      <div class="badge" id="badge-tangkou"   >🔴 換臉覺醒</div>
+      <div class="badge" id="badge-doublesun" >🎭 兩面人認證</div>
+      <div class="badge" id="badge-lv5"       >🔥 Lv.5</div>
+      <div class="badge" id="badge-lv10"      >⭐ Lv.10</div>
+      <div class="badge" id="badge-raid"      >📡 被台媒抓包</div>
+      <div class="badge" id="badge-mission"   >✅ 完成任務</div>
+      <div class="badge" id="badge-codex"     >📖 名冊蒐集家</div>
+    </div>
+  </div>
+
+  <!-- SYSTEM COMMENT -->
+  <div id="systemComment"></div>
+
+  <!-- ORGAN CERTIFICATE OUTPUT -->
+  <div id="receiptContainer"></div>
+
+</div>
+
+<!-- ================= ORGAN CERTIFICATE TEMPLATE ================= -->
+<template id="receiptTemplate">
+  <div class="receipt">
+    <div class="receipt-header">🏥 中共統戰器官銀行</div>
+    <div class="receipt-subheader">LICK-CCP CORE — 北京認證 · 兩岸一家親</div>
+    <hr>
+    <div class="receipt-row"><span>器官編號</span><span class="rid"></span></div>
+    <div class="receipt-row"><span>摘取時間</span><span class="rtime"></span></div>
+    <div class="receipt-row money-row"><span>器官估價</span><span>¥ <b class="rmoney"></b></span></div>
+    <div class="receipt-row"><span>器官中介</span><span class="rhigh"></span></div>
+    <div class="receipt-row"><span>北京補貼</span><span>¥ <span class="ractual"></span></span></div>
+    <hr>
+    <div class="result"></div>
+    <div class="receipt-actions">
+      <button class="receipt-btn edit-btn"   onclick="toggleEdit(this)">✏️ 編輯</button>
+      <button class="receipt-btn redraw-btn" onclick="redrawReceipt()">🔄 再摘一次</button>
+      <button class="receipt-btn share-btn"  onclick="openShareModal()">📤 分享</button>
+    </div>
+    <div class="footer"></div>
+  </div>
+</template>
+
+<!-- ================= INTRO MODAL — 國台辦來電風 ================= -->
+<div id="introModal" class="modal" style="display:none;">
+  <div class="modal-box">
+    <div class="modal-title">📡 統戰信號接收中…</div>
+    <div class="modal-content">中央對台工作辦公室
+正在確認您的身份與忠誠度…
+
+偵測到您正在存取
+🏥 統戰器官銀行 系統
+
+請確認您的身份：</div>
+    <div class="modal-buttons" style="flex-direction:column;gap:10px;margin-top:14px;">
+      <button onclick="enterGrass()">🇹🇼 我是台灣人（帶我進去看看）</button>
+      <button onclick="tryLeave()" style="background:#0a0000;color:#663333;border:1px solid #4a0000;">🔴 我是自己人（我要離開）</button>
+    </div>
+  </div>
+</div>
+
+<!-- ================= SHARE MODAL ================= -->
+<div id="shareModal" class="modal">
+  <div class="modal-box">
+    <div class="modal-title">📤 分享這份器官證明</div>
+    <div id="shareTextBox" class="share-text-box"></div>
+    <div class="share-grid">
+      <button class="share-icon-btn fb"      onclick="shareToFB()">Facebook</button>
+      <button class="share-icon-btn twitter" onclick="shareToTwitter()">Twitter / X</button>
+      <button class="share-icon-btn threads" onclick="shareToThreads()">Threads</button>
+      <button class="share-icon-btn line"    onclick="shareToLINE()">LINE</button>
+      <button class="share-icon-btn ig"      onclick="guideIG()">Instagram ↗</button>
+      <button class="share-icon-btn ibon"    onclick="guideIbon()">ibon 列印 ↗</button>
+    </div>
+    <div class="modal-buttons" style="margin-top:12px;">
+      <button onclick="copyShareText()">📋 複製分享文字</button>
+      <button onclick="closeShareModal()">關閉</button>
+    </div>
+  </div>
+</div>
+
+<!-- ================= CODEX MODAL — 統戰名冊 ================= -->
+<div id="codexModal" class="modal">
+  <div class="modal-box codex-box">
+    <div class="modal-title">📖 統戰器官名冊</div>
+    <div class="modal-content" style="font-size:12px;margin-bottom:6px;">
+      每次摘取器官都可能解鎖新角色！點擊已解鎖角色查看專屬語錄。
+    </div>
+    <div id="codexProgress"></div>
+    <div id="codexGrid"></div>
+    <div class="modal-buttons" style="margin-top:12px;">
+      <button onclick="closeCodex()">關閉</button>
+    </div>
+  </div>
+</div>
+
+<!-- ================= CHARACTER DETAIL MODAL ================= -->
+<div id="charModal" class="modal">
+  <div class="modal-box">
+    <div id="charEmoji" style="font-size:44px;text-align:center;margin-bottom:6px;"></div>
+    <div id="charName" class="modal-title" style="text-align:center;"></div>
+    <div id="charQuotes" style="margin-top:10px;display:flex;flex-direction:column;gap:8px;"></div>
+    <div class="modal-buttons" style="margin-top:14px;">
+      <button onclick="closeCharModal()">← 回名冊</button>
+    </div>
+  </div>
+</div>
+
+<!-- ================= LEADERBOARD MODAL ================= -->
+<div id="leaderModal" class="modal">
+  <div class="modal-box">
+    <div class="modal-title">🏆 今日統戰獻金排行榜</div>
+    <div id="leaderList" style="margin-top:10px;"></div>
+    <div class="modal-buttons" style="margin-top:14px;">
+      <button onclick="closeLeader()">關閉</button>
+      <button onclick="clearLeader()">清除紀錄</button>
+    </div>
+  </div>
+</div>
+
+<!-- ================= TOAST ================= -->
+<div id="toastContainer"></div>
+
+<!-- ================= SCRIPTS ================= -->
+<script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+<script type="module" src="script.js"></script>
+
+<script>
+// ==================== STATE ====================
+const achievements = {
+  first:false, combo5:false, chaos100:false, jackpot:false,
+  tangkou:false, doublesun:false, lv5:false, lv10:false,
+  raid:false, mission:false, codex:false,
+};
+let comboCount = 0, comboTimer = null;
+const COMBO_TIMEOUT = 3000;
+let infoExpanded = false;
+
+// ==================== INIT ====================
+document.addEventListener("DOMContentLoaded", () => {
+  document.getElementById("introModal").style.display = "flex";
+  initMission();
+});
+
+window.enter = function(ok) {
+  document.getElementById("introModal").style.display = "none";
+  if (ok && typeof window.loadMemesGlobal === "function") window.loadMemesGlobal();
+};
+
+// ==================== 入場嘲諷（台灣人進來） ====================
+const GRASS_MSGS = [
+  { title:"🇹🇼 台灣人身份認證成功",
+    content:"系統已確認您的台灣公民身份。\n\n感謝您進來圍觀我們的諷刺系統。\n您的良知器官目前完好，請小心保管。\n\n既然來了，不如看看那些人是怎麼換臉的……" },
+  { title:"✅ 身份驗證：清醒台灣人",
+    content:"歡迎進入統戰器官銀行監督中心。\n\n系統已將您列入「旁觀者」名單（免費）。\n\n溫馨提示：進來看看，保證讓你火大。\n（這是正常反應）" },
+  { title:"📋 台灣公民資料已建檔",
+    content:"您的良知值：★★★★★（完好）\n您的換臉風險：0%\n\n本系統諷刺的是那些換臉的人，不是你。\n\n既然來了，先看一眼他們的器官長什麼樣子？" },
+  { title:"💚 清醒台灣人，辛苦了",
+    content:"系統偵測到您對統戰行為感到憤怒。\n這是完全正常的健康反應。\n\n進入本系統，接受一下諷刺治療。\n療程免費，副作用是更加清醒。" }
+];
+
+window.enterGrass = function() {
+  const msg = GRASS_MSGS[Math.floor(Math.random() * GRASS_MSGS.length)];
+  document.getElementById("grassTitle").textContent   = msg.title;
+  document.getElementById("grassContent").textContent = msg.content;
+  document.getElementById("introModal").style.display = "none";
+  document.getElementById("grassModal").style.display = "flex";
+};
+
+window.grassEnter = function() {
+  document.getElementById("grassModal").style.display = "none";
+  window.enter(true);
+};
+
+// ==================== 假裝離開（自己人）====================
+const FAKE_LEAVE_1 = [
+  { title:"🔴 確定要離開？",
+    content:"系統記錄到您正在嘗試逃離統戰真相。\n\n大多數人第一次看到器官證明書都會想跑。\n\n但系統建議您再想想——\n外面的世界你的換臉紀錄還在。" },
+  { title:"⚠ 離開警告",
+    content:"您即將離開統戰器官銀行系統。\n\n請注意：離開後，您將無法假裝不知道這些事。\n\n但事實上您已經知道了。\n所以……要走嗎？" },
+  { title:"🔒 系統偵測到異常行為",
+    content:"有人試圖在看到真相之前逃跑。\n\n這種行為在統戰部內部稱為：「立場不穩定」。\n\n北京說：沒關係，這種人最後都會回來的。" },
+  { title:"📋 離開申請書",
+    content:"您的離開申請已收到。\n\n審核中……\n審核中……\n\n系統判定：申請不合格。\n理由：您還沒看過器官長什麼樣，怎麼知道要離開？" }
+];
+const FAKE_LEAVE_2 = [
+  { content:"好，系統尊重您的選擇。\n\n正在準備退出……\n\n啊，對了——系統發現您其實很想留下來看。\n歡迎加入台灣鄉民諷刺俱樂部。" },
+  { content:"再按一次確認退出。\n\n或者……\n\n您也可以直接留下來，省得麻煩。\n系統已幫您做好決定。" },
+  { content:"最後確認：您真的要離開？\n\n想想看——出去之後要做什麼？\n看新聞？新聞比這更讓人崩潰。\n\n系統建議：留下來比較快樂。" },
+  { content:"系統正在處理退出請求……\n\n很抱歉，退出功能目前因「統戰因素」暫停服務。\n請繼續留在系統內。" }
+];
+let fakeLeaveStep = 0;
+
+window.tryLeave = function() {
+  fakeLeaveStep = 1;
+  const msg = FAKE_LEAVE_1[Math.floor(Math.random() * FAKE_LEAVE_1.length)];
+  document.getElementById("fakeLeaveTitle").textContent   = msg.title;
+  document.getElementById("fakeLeaveContent").textContent = msg.content;
+  document.getElementById("fakeLeaveStep2").style.display = "none";
+  document.getElementById("fakeLeaveBtn").textContent     = "確認退出";
+  document.getElementById("introModal").style.display     = "none";
+  document.getElementById("fakeLeaveModal").style.display = "flex";
+};
+
+window.fakeLeaveNext = function() {
+  if (fakeLeaveStep === 1) {
+    fakeLeaveStep = 2;
+    const msg2 = FAKE_LEAVE_2[Math.floor(Math.random() * FAKE_LEAVE_2.length)];
+    document.getElementById("fakeLeaveStep2").style.display  = "block";
+    document.getElementById("fakeLeaveContent2").textContent = msg2.content;
+    document.getElementById("fakeLeaveBtn").textContent      = "我真的要走了";
+  } else {
+    document.getElementById("fakeLeaveModal").style.display = "none";
+    showToast("👋 再見……欸？你還在這裡？");
+    setTimeout(() => showToast("🎉 系統已將你強制採入，歡迎！"), 1200);
+    window.enter(true);
+  }
+};
+
+window.cancelLeave = function() {
+  document.getElementById("fakeLeaveModal").style.display = "none";
+  document.getElementById("introModal").style.display     = "flex";
+};
+
+// ==================== INFO BAR TOGGLE ====================
+window.toggleInfoPanel = function() {
+  infoExpanded = !infoExpanded;
+  const panel = document.getElementById("achievementPanel");
+  const btn   = document.getElementById("infoToggleBtn");
+  panel.classList.toggle("collapsed", !infoExpanded);
+  btn.textContent = infoExpanded ? "▲ 成就" : "▼ 成就";
+};
+
+// ==================== CODEX — 統戰名冊 ====================
+const ALL_CHARS = [
+  "換臉外科主任","統戰積分評估師","北京直航機師",
+  "九二共識公證人","器官品質鑑定官","忠誠度注射師",
+  "豪宅鑑價員","國有地圈地師","黨產保管員",
+  "立院衝突特技員","粗口翻譯官","北京握手協調員",
+  "退役將領統戰顧問","兩面話翻譯機","換臉手術麻醉師",
+  "台糖地合建師","700坪設計師","52坪保護區管理員",
+  "議場睡衣設計師","喇叭採購專員","助理費除罪公證人",
+  "統戰法案起草師","中資引進顧問","退役將領媒介人",
+  "北京頒獎典禮司儀","黨產156億保管師","現代吳三桂評估官",
+  "跨海器官快遞員","換臉後公關師","國台辦簽收員",
+  "傅系飛行計畫師","謝家白宮嚮導","顏家莊園守衛",
+  "馬家國有地承租人","花蓮傅家地政師","汐止廖家顧問",
+  "立院暴力協調師","文件相似度偵測師","幽靈連署設計師",
+  "大罷免阻撓師","國防預算刪除員","黨產追討攔截師"
+];
+
+let unlockedChars = new Set(JSON.parse(localStorage.getItem("lick_ccp_codex") || "[]"));
+let charData = {};
+
+fetch("characters.json?ts=" + Date.now())
+  .then(r => r.json())
+  .then(d => { d.characters.forEach(c => { charData[c.name] = { emoji: c.emoji, quotes: c.quotes }; }); })
+  .catch(() => console.warn("characters.json 載入失敗"));
+
+window.notifyCharUnlocked = function(name) {
+  if (!name || unlockedChars.has(name)) return;
+  unlockedChars.add(name);
+  localStorage.setItem("lick_ccp_codex", JSON.stringify([...unlockedChars]));
+  const cd = charData[name];
+  showToast(`📖 解鎖：${cd ? cd.emoji : ""}${name}`);
+  if (unlockedChars.size >= ALL_CHARS.length) unlock("codex","名冊蒐集家");
+};
+
+function renderCodexGrid() {
+  const grid = document.getElementById("codexGrid");
+  const prog = document.getElementById("codexProgress");
+  if (!grid) return;
+  prog.textContent = `已解鎖 ${unlockedChars.size} / ${ALL_CHARS.length} 位統戰角色`;
+  grid.innerHTML = ALL_CHARS.map(name => {
+    const got  = unlockedChars.has(name);
+    const cd   = charData[name];
+    const emoji = (cd && got) ? cd.emoji : "❓";
+    return got
+      ? `<div class="codex-card got" onclick="openCharModal('${name.replace(/'/g,"\\'")}')">\
+<span class="codex-emoji">${emoji}</span><span class="codex-name">${name}</span></div>`
+      : `<div class="codex-card locked"><span class="codex-emoji">❓</span><span class="codex-name">???</span></div>`;
+  }).join("");
+}
+
+window.openCodex     = function() { renderCodexGrid(); document.getElementById("codexModal").style.display = "flex"; };
+window.closeCodex    = function() { document.getElementById("codexModal").style.display = "none"; };
+window.openCharModal = function(name) {
+  const cd = charData[name];
+  if (!cd) return;
+  document.getElementById("charEmoji").textContent = cd.emoji;
+  document.getElementById("charName").textContent  = name;
+  document.getElementById("charQuotes").innerHTML  = cd.quotes.map(q => `<div class="char-quote">「${q}」</div>`).join("");
+  document.getElementById("codexModal").style.display = "none";
+  document.getElementById("charModal").style.display  = "flex";
+};
+window.closeCharModal = function() {
+  document.getElementById("charModal").style.display  = "none";
+  document.getElementById("codexModal").style.display = "flex";
+};
+
+// ==================== LEADERBOARD ====================
+function getLeader() { return JSON.parse(localStorage.getItem("lick_ccp_leader") || "[]"); }
+function saveLeader(list) { localStorage.setItem("lick_ccp_leader", JSON.stringify(list)); }
+window.recordScore = function(money) {
+  let list = getLeader();
+  list.push({ money, time: new Date().toLocaleTimeString("zh-TW") });
+  list.sort((a,b) => b.money - a.money);
+  saveLeader(list.slice(0, 10));
+};
+window.openLeader = function() {
+  const list = getLeader();
+  const el   = document.getElementById("leaderList");
+  el.innerHTML = list.length
+    ? list.map((r,i) => `<div style="display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px dashed #4a0000;font-size:13px;color:#cc9999;"><span>${["🥇","🥈","🥉"][i]||(i+1)+"."} ${r.time}</span><span style="color:#ffd700;font-weight:700">¥ ${r.money.toLocaleString()}</span></div>`).join("")
+    : "<p style='color:#663333;font-size:13px'>還沒有紀錄，快去摘取器官！</p>";
+  document.getElementById("leaderModal").style.display = "flex";
+};
+window.closeLeader = function() { document.getElementById("leaderModal").style.display = "none"; };
+window.clearLeader = function() { saveLeader([]); closeLeader(); showToast("🗑 排行榜已清除"); };
+
+// ==================== MISSIONS ====================
+const MISSIONS = [
+  { desc:"💰 單次器官估價超過 100萬",   check: s => (s.lastMoney||0) >= 1000000 },
+  { desc:"📄 累計摘取 10 次器官",        check: s => (s.totalGenerated||0) >= 10 },
+  { desc:"📡 被抓包指數突破 200",        check: s => (s.chaos||0) >= 200 },
+  { desc:"🔴 換臉模式摘取 5 次",        check: s => (s.tangkouCount||0) >= 5 },
+  { desc:"⚡ 連擊達到 8 次",             check: s => (s.maxCombo||0) >= 8 },
+  { desc:"📖 解鎖 10 位統戰角色",        check: () => unlockedChars.size >= 10 },
+  { desc:"🔥 升到 Lv.5",                check: s => (s.level||0) >= 5 },
+  { desc:"🎭 換臉模式並摘取器官",        check: s => !!s.doubleFaceUsed },
+];
+let currentMission = null;
+function initMission() {
+  let idx = sessionStorage.getItem("lickMissionIdx");
+  if (idx === null) { idx = Math.floor(Math.random() * MISSIONS.length); sessionStorage.setItem("lickMissionIdx", idx); }
+  currentMission = MISSIONS[parseInt(idx)];
+  document.getElementById("missionDesc").textContent = currentMission.desc;
+}
+window.checkMission = function(state) {
+  if (!currentMission || achievements.mission) return;
+  if (currentMission.check(state)) {
+    const p = document.getElementById("missionProgress");
+    p.textContent = "✅"; p.style.color = "#ffd700";
+    unlock("mission","完成今日統戰任務");
+  }
+};
+
+// ==================== TOAST ====================
+window.showToast = function(msg) {
+  const c = document.getElementById("toastContainer");
+  const el = document.createElement("div");
+  el.className = "toast"; el.textContent = msg; c.appendChild(el);
+  requestAnimationFrame(() => requestAnimationFrame(() => el.classList.add("show")));
+  setTimeout(() => { el.classList.replace("show","hide"); setTimeout(() => el.remove(), 400); }, 2800);
+};
+
+// ==================== BADGE ====================
+function unlock(key, msg) {
+  if (achievements[key]) return;
+  achievements[key] = true;
+  const b = document.getElementById("badge-" + key);
+  if (b) b.classList.add("unlocked");
+  showToast("🏆 成就解鎖：" + msg);
+}
+
+// ==================== COMBO ====================
+window.tickCombo = function() {
+  comboCount++;
+  clearTimeout(comboTimer);
+  const d = document.getElementById("comboDisplay");
+  if (comboCount >= 2) {
+    d.textContent = `🔴 換臉 COMBO x${comboCount}！`;
+    d.style.transform = "scale(1.15)";
+    setTimeout(() => d.style.transform="scale(1)", 150);
+  } else d.textContent = "";
+  if (comboCount >= 5) unlock("combo5","連擊5次");
+  comboTimer = setTimeout(() => { comboCount = 0; d.textContent = ""; }, COMBO_TIMEOUT);
+  return comboCount;
+};
+
+// ==================== STABILITY BAR ====================
+function updateStabilityBar(v) {
+  const pct = Math.max(0, Math.min(100, v));
+  const f = document.getElementById("stabilityFill");
+  if (f) f.style.width = pct + "%";
+}
+
+// ==================== CHECK ACHIEVEMENTS ====================
+window.checkAchievements = function(state) {
+  if (!achievements.first) unlock("first","初次摘取");
+  if (state.chaos >= 100)  unlock("chaos100","被抓包百次");
+  if (state.mode === "tangkou") unlock("tangkou","換臉模式覺醒");
+  if (state.doubleFace)    unlock("doublesun","兩面人認證");
+  if (state.jackpotUsed)   unlock("jackpot","統戰大獎");
+  if (state.level >= 5)    unlock("lv5","Lv.5 統戰師");
+  if (state.level >= 10)   unlock("lv10","Lv.10 全身換臉");
+  updateStabilityBar(state.stability);
+  const combo = window.tickCombo();
+  state.maxCombo = Math.max(state.maxCombo || 0, combo);
+  const el = document.getElementById("totalMoney");
+  if (el) el.textContent = (state.totalMoney || 0).toLocaleString();
+  window.checkMission(state);
+  if (state.lastMoney) window.recordScore(state.lastMoney);
+};
+
+// ==================== RAID — 台媒抓包 ====================
+window.triggerRaid = function() {
+  unlock("raid","被台灣媒體狗仔抓包");
+  const overlay = document.getElementById("raidOverlay");
+  const fill    = document.getElementById("raidBarFill");
+  overlay.classList.add("active");
+  fill.style.transition = "none"; fill.style.width = "0%";
+  requestAnimationFrame(() => requestAnimationFrame(() => {
+    fill.style.transition = "width 2.8s linear"; fill.style.width = "100%";
+  }));
+  setTimeout(() => overlay.classList.remove("active"), 3000);
+};
+
+// ==================== LOCK SCREEN ====================
+window.showLockScreen = function() { document.getElementById("lockScreen").style.display = "flex"; };
+window.pardonMe  = function() { document.getElementById("lockScreen").style.display = "none"; showToast("🙏 國台辦已特赦你，但黑名單留著"); };
+window.hardReset = function() { location.reload(); };
+
+// ==================== MODE + GENERATE ====================
+window.setModeAndGen = function(m) { window.setMode(m); if (typeof window.generate === "function") window.generate(); };
+
+// ==================== EDIT ====================
+window.toggleEdit = function(btn) {
+  const receipt = btn.closest(".receipt");
+  const result  = receipt.querySelector(".result");
+  if (result.contentEditable === "true") {
+    result.contentEditable = "false";
+    result.style.outline = "none";
+    btn.textContent = "✏️ 編輯";
+    showToast("✅ 器官證明已修改，可以截圖分享了");
+  } else {
+    result.contentEditable = "true";
+    result.style.outline = "2px dashed #cc0000";
+    result.style.borderRadius = "2px";
+    result.focus();
+    btn.textContent = "✅ 完成";
+  }
+};
+
+// ==================== REDRAW ====================
+window.redrawReceipt = function() {
+  if (typeof window.generate === "function") window.generate();
+};
+
+// ==================== SHARE ====================
+let _lastReceiptData = null;
+window.setLastReceipt = function(data) {
+  _lastReceiptData = data;
+  const box = document.getElementById("shareTextBox");
+  if (box && data) box.textContent = buildShareText(data);
+};
+
+function buildShareText(d) {
+  if (!d) return "";
+  return [
+    "【舔共黨統戰器官銀行】",
+    `器官中介：${d.highSalary}`,
+    `器官估價：¥ ${d.moneyDisplay}`,
+    `器官編號：${d.id}`,
+    "",
+    (d.comparison || "").replace(/<br>/g,"\n").replace(/<[^>]+>/g,""),
+    "",
+    "🔗 " + location.href
+  ].join("\n");
+}
+
+function getShareURL() { return encodeURIComponent(location.href); }
+function getShareMsg() {
+  const d = _lastReceiptData;
+  const base = d ? `【舔共黨器官銀行】主刀：${d.highSalary} 估價：¥${d.moneyDisplay} ` : "【舔共黨統戰器官銀行】";
+  return encodeURIComponent(base + location.href);
+}
+
+window.shareToFB      = function() { window.open(`https://www.facebook.com/sharer/sharer.php?u=${getShareURL()}`, "_blank"); };
+window.shareToTwitter = function() { window.open(`https://twitter.com/intent/tweet?text=${getShareMsg()}`, "_blank"); };
+window.shareToThreads = function() { window.open(`https://www.threads.net/intent/post?text=${getShareMsg()}`, "_blank"); };
+window.shareToLINE    = function() { window.open(`https://line.me/R/msg/text/?${getShareMsg()}`, "_blank"); };
+
+window.guideIG = function() {
+  quickSaveShot();
+  setTimeout(() => showToast("📸 截圖已下載！打開 IG 手動貼上"), 1000);
+};
+window.guideIbon = function() {
+    quickSaveShot();
+    setTimeout(() => {
+        showToast("📸 截圖已下載！可用 LINE ibon 或 OPEN POINT APP 上傳列印");
+        window.open("https://line.me/R/ti/p/@ibon", "_blank");
+    }, 1000);
+};
+window.copyShareText = async function() {
+  const text = document.getElementById("shareTextBox").textContent;
+  if (!text) { showToast("先摘取一份器官！"); return; }
+  await navigator.clipboard.writeText(text);
+  showToast("✅ 已複製！快去散播給朋友");
+};
+
+window.openShareModal  = function() {
+  if (!_lastReceiptData) { showToast("先摘取一份器官！"); return; }
+  document.getElementById("shareModal").style.display = "flex";
+};
+window.closeShareModal = function() { document.getElementById("shareModal").style.display = "none"; };
+
+window.quickSaveShot = function() {
+  const receipt = document.querySelector(".receipt");
+  if (!receipt) { showToast("先摘取一份器官！"); return; }
+  const actions = receipt.querySelector(".receipt-actions");
+  if (actions) actions.style.display = "none";
+  showToast("📸 正在截圖，請稍候…");
+  html2canvas(receipt, { backgroundColor: "#fdf8ef" }).then(canvas => {
+    if (actions) actions.style.display = "";
+    const a = document.createElement("a");
+    a.href = canvas.toDataURL();
+    a.download = "organ-certificate.png";
+    a.click();
+    showToast("✅ 器官證明已下載！");
+  });
+};
+
+window.downloadShot  = window.quickSaveShot;
+window.openEvidence  = window.openShareModal;
+window.closeEvidence = window.closeShareModal;
+</script>
+</body>
+</html>

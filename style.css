@@ -1,0 +1,509 @@
+/* =========================
+   BASE RESET
+========================= */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  width: 100%; height: 100%;
+  overflow: hidden;
+  font-family: "Microsoft JhengHei", "Noto Serif TC", "SimSun", serif;
+  background: radial-gradient(circle at top, #1a0000, #0a0000);
+  color: #f5e6c8;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+/* 黨徽紋理背景 */
+body::before {
+  content: "";
+  position: fixed; inset: 0;
+  background:
+    repeating-linear-gradient(0deg,rgba(180,0,0,0.04),rgba(180,0,0,0.04) 1px,transparent 1px,transparent 4px),
+    repeating-linear-gradient(90deg,rgba(180,0,0,0.02),rgba(180,0,0,0.02) 1px,transparent 1px,transparent 60px),
+    radial-gradient(circle at center,rgba(255,200,0,0.04),transparent 70%);
+  pointer-events: none; z-index: 0;
+}
+
+/* 頂部紅色光暈 */
+body::after {
+  content: "";
+  position: fixed; top: 0; left: 0; right: 0; height: 3px;
+  background: linear-gradient(90deg, transparent, #cc0000, #ffd700, #cc0000, transparent);
+  z-index: 10;
+}
+
+/* =========================
+   PANEL
+========================= */
+.panel {
+  width: 100%; max-width: 1250px;
+  margin: 0 auto;
+  padding: 10px 12px;
+  position: relative; z-index: 2;
+  display: flex; flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* =========================
+   BUTTONS — 官方紅金風
+========================= */
+.buttons {
+  display: flex; flex-wrap: wrap;
+  gap: 7px; justify-content: center;
+  flex-shrink: 0;
+}
+.buttons button {
+  flex: 1 1 calc(16.6% - 7px); min-width: 110px;
+  background: linear-gradient(145deg, #cc0000, #8b0000);
+  color: #ffd700; border: 1px solid #8b0000;
+  padding: 9px 10px; font-size: 13px; font-weight: 800;
+  border-radius: 4px; cursor: pointer;
+  box-shadow: 0 3px 0 #3d0000, inset 0 1px 0 rgba(255,215,0,0.2);
+  transition: all 0.12s ease;
+  letter-spacing: 0.5px;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+}
+.buttons button:hover  { 
+  transform: translateY(-2px); 
+  background: linear-gradient(145deg, #dd0000, #aa0000);
+  box-shadow: 0 5px 0 #3d0000, 0 0 12px rgba(204,0,0,0.4);
+}
+.buttons button:active { 
+  transform: translateY(2px); 
+  box-shadow: 0 1px 0 #3d0000; 
+}
+
+/* 換臉按鈕特殊樣式 */
+#doubleSunBtn {
+  background: linear-gradient(145deg, #7a0000, #4a0000);
+  border: 1px solid #ffd700;
+}
+#doubleSunBtn.active {
+  background: linear-gradient(145deg, #ffd700, #b8860b);
+  color: #1a0000;
+}
+
+/* =========================
+   COMBO
+========================= */
+#comboDisplay {
+  text-align: center; font-size: 13px; font-weight: 800;
+  color: #ffd700; height: 20px; margin: 3px 0;
+  letter-spacing: 2px; transition: transform 0.15s;
+  flex-shrink: 0;
+  text-shadow: 0 0 8px rgba(255,215,0,0.6);
+}
+
+/* =========================
+   INFO BAR — 黨報HUD風
+========================= */
+#infoBar {
+  background: rgba(10,0,0,0.85);
+  border: 1px solid #8b0000;
+  border-top: 2px solid #cc0000;
+  border-radius: 2px;
+  padding: 6px 10px;
+  margin: 4px 0;
+  flex-shrink: 0;
+  position: relative;
+}
+/* 金邊裝飾 */
+#infoBar::before {
+  content: "★";
+  position: absolute; left: 6px; top: 50%; transform: translateY(-50%);
+  color: #ffd700; font-size: 10px;
+}
+#infoBar::after {
+  content: "★";
+  position: absolute; right: 6px; top: 50%; transform: translateY(-50%);
+  color: #ffd700; font-size: 10px;
+}
+
+#infoMain {
+  display: flex; align-items: center;
+  flex-wrap: wrap; gap: 6px;
+  font-size: 12px; color: #ffd700;
+  padding: 0 14px;
+}
+#hudChip {
+  white-space: nowrap;
+  flex-shrink: 0;
+  color: #ffaa00;
+  font-family: "Microsoft JhengHei", monospace;
+}
+#missionChip {
+  flex: 1; color: #cc8888;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  font-size: 11px;
+}
+#missionProgress { color: #ffd700; font-weight: 700; }
+#infoToggleBtn {
+  background: none; border: 1px solid #8b0000;
+  color: #cc4444; font-size: 11px; padding: 2px 8px;
+  border-radius: 2px; cursor: pointer;
+  white-space: nowrap; flex-shrink: 0;
+}
+#infoToggleBtn:hover { border-color: #ffd700; color: #ffd700; }
+
+#stabilityBarInline {
+  height: 3px; background: #1a0000;
+  border-radius: 0; overflow: hidden;
+  margin-top: 5px;
+}
+#stabilityFill {
+  height: 100%; width: 100%;
+  background: linear-gradient(90deg, #cc0000, #ff6600, #ffd700);
+  transition: width 0.4s ease;
+}
+
+/* 成就折疊 */
+#achievementPanel {
+  display: flex; flex-wrap: wrap; gap: 5px;
+  justify-content: center;
+  overflow: hidden;
+  max-height: 200px;
+  transition: max-height 0.3s ease, margin-top 0.3s ease;
+  margin-top: 6px;
+}
+#achievementPanel.collapsed { max-height: 0; margin-top: 0; }
+
+.badge {
+  background: #0a0000; border: 1px solid #4a0000;
+  color: #663333; padding: 3px 8px;
+  border-radius: 2px; font-size: 11px; transition: all 0.3s;
+  white-space: nowrap;
+}
+.badge.unlocked {
+  background: linear-gradient(135deg, #8b0000, #cc0000);
+  border-color: #ffd700; color: #ffd700;
+  box-shadow: 0 0 6px rgba(255,215,0,0.4);
+}
+
+/* =========================
+   SYSTEM COMMENT — 黨報評語
+========================= */
+#systemComment {
+  margin: 4px 0; padding: 7px 14px;
+  display: flex; justify-content: center; align-items: center; text-align: center;
+  background: rgba(5,0,0,0.7);
+  border-top: 1px solid #8b0000;
+  border-bottom: 1px solid #8b0000;
+  color: #cc8888;
+  font-size: 12px; line-height: 1.5; min-height: 34px;
+  transition: all 0.25s ease;
+  flex-shrink: 0;
+  font-style: italic;
+  letter-spacing: 0.5px;
+}
+
+/* =========================
+   RECEIPT CONTAINER
+========================= */
+#receiptContainer {
+  flex: 1; overflow-y: auto;
+  display: flex; flex-wrap: wrap;
+  gap: 16px; justify-content: center;
+  align-items: flex-start;
+  padding: 6px 0 10px;
+}
+#receiptContainer::-webkit-scrollbar { width: 4px; }
+#receiptContainer::-webkit-scrollbar-thumb { background: #8b0000; border-radius: 0; }
+
+/* =========================
+   ORGAN CERTIFICATE — 器官捐贈證明書
+========================= */
+.receipt {
+  width: 360px; max-width: 100%;
+  background: #fdf8ef;
+  color: #1a0000; padding: 18px 16px;
+  border-radius: 2px; position: relative;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.7), inset 0 0 0 1px rgba(139,0,0,0.3);
+  transition: all 0.25s ease;
+  border-top: 4px solid #cc0000;
+  border-bottom: 2px solid #8b0000;
+}
+/* 紅印章裝飾效果 */
+.receipt::before {
+  content: "已認證";
+  position: absolute; right: 14px; top: 14px;
+  width: 48px; height: 48px;
+  border: 2px solid rgba(180,0,0,0.35);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  color: rgba(180,0,0,0.35); font-size: 11px; font-weight: 800;
+  transform: rotate(-15deg);
+  pointer-events: none;
+}
+.receipt:hover { transform: translateY(-4px); box-shadow: 0 28px 60px rgba(0,0,0,0.8); }
+
+.receipt-header { 
+  font-weight: 900; font-size: 15px; text-align: center; 
+  margin-bottom: 2px;
+  color: #8b0000;
+  letter-spacing: 2px;
+}
+.receipt-subheader {
+  text-align: center; font-size: 10px; color: #cc4444;
+  margin-bottom: 8px; letter-spacing: 1px;
+}
+.receipt hr { border-color: #cc0000; border-style: double; margin: 6px 0; }
+.receipt-row {
+  display: flex; justify-content: space-between;
+  padding: 4px 0; border-bottom: 1px dashed #e8d5c0;
+  font-size: 12px;
+  color: #2a0000;
+}
+.receipt-row:last-of-type { border-bottom: none; }
+.money-row { font-weight: 700; color: #8b0000; }
+.result {
+  margin: 10px 0; padding: 10px;
+  font-size: 12px; line-height: 1.75;
+  background: #fff8ee; border-radius: 0;
+  border: 1px solid #e8d5c0;
+  border-left: 3px solid #cc0000;
+  white-space: pre-line;
+  min-height: 40px;
+  color: #1a0000;
+  transition: outline 0.2s;
+}
+.footer {
+  text-align: center; font-size: 10px; color: #8b4444;
+  margin-top: 10px; line-height: 1.5;
+  border-top: 1px solid #e8d5c0;
+  padding-top: 6px;
+  letter-spacing: 0.5px;
+}
+
+/* 兩面人區塊 — 台灣說/北京說 */
+.face-tw, .face-bj {
+  padding: 7px 10px; margin: 4px 0;
+  font-size: 11px; line-height: 1.6;
+  border-radius: 2px;
+}
+.face-tw {
+  background: #f0f7ff;
+  border-left: 3px solid #0066cc;
+  color: #003366;
+}
+.face-bj {
+  background: #fff0f0;
+  border-left: 3px solid #cc0000;
+  color: #660000;
+}
+.face-label {
+  font-size: 10px; font-weight: 800;
+  letter-spacing: 1px; margin-bottom: 3px;
+}
+
+/* 收據操作按鈕 */
+.receipt-actions {
+  display: flex; gap: 6px; margin: 8px 0 4px;
+}
+.receipt-btn {
+  flex: 1; padding: 6px 4px; border: none;
+  font-size: 11px; font-weight: 700;
+  border-radius: 2px; cursor: pointer;
+  transition: all 0.12s;
+}
+.edit-btn   { background: #e8d5c0; color: #4a0000; border: 1px solid #cc8888; }
+.redraw-btn { background: #fff0e0; color: #8b0000; border: 1px solid #cc6666; }
+.share-btn  { background: #cc0000; color: #ffd700; border: 1px solid #8b0000; }
+.receipt-btn:hover { filter: brightness(0.9); transform: translateY(-1px); }
+
+/* =========================
+   MODAL — 官方公文風
+========================= */
+.modal {
+  position: fixed; inset: 0; display: none;
+  justify-content: center; align-items: center;
+  background: rgba(0,0,0,0.88); z-index: 99999; padding: 16px;
+}
+.modal-box {
+  width: min(520px,95%); 
+  background: #0a0000; color: #f5e6c8;
+  border: 1px solid #cc0000;
+  border-top: 3px solid #ffd700;
+  border-radius: 2px; padding: 20px;
+  max-height: 90vh; overflow-y: auto;
+  box-shadow: 0 0 40px rgba(204,0,0,0.3);
+}
+.modal-title { 
+  font-size: 17px; font-weight: bold; margin-bottom: 10px; 
+  color: #ffd700;
+  border-bottom: 1px solid #8b0000;
+  padding-bottom: 8px;
+  letter-spacing: 1px;
+}
+.modal-content { font-size: 13px; line-height: 1.7; white-space: pre-line; color: #cc9999; }
+.modal-buttons { margin-top: 14px; display: flex; gap: 8px; flex-wrap: wrap; }
+.modal-buttons button {
+  flex: 1; padding: 9px; border: none; cursor: pointer;
+  font-weight: bold; border-radius: 2px; min-width: 80px; font-size: 13px;
+}
+.modal-buttons button:first-child { 
+  background: linear-gradient(135deg, #cc0000, #8b0000); 
+  color: #ffd700;
+  border: 1px solid #ffd700;
+}
+.modal-buttons button:not(:first-child) { 
+  background: #1a0000; color: #cc6666;
+  border: 1px solid #4a0000;
+}
+
+/* Share text */
+.share-text-box {
+  background: #0f0000; padding: 10px 12px; border-radius: 2px;
+  margin: 8px 0; font-size: 12px; line-height: 1.7;
+  white-space: pre-line; color: #cc9999; max-height: 120px; overflow-y: auto;
+  border: 1px solid #4a0000;
+}
+
+/* 社群分享格子 */
+.share-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 8px; margin: 10px 0;
+}
+.share-icon-btn {
+  padding: 10px 6px; border: none; border-radius: 2px;
+  font-size: 12px; font-weight: 800; cursor: pointer;
+  transition: all 0.15s; text-align: center;
+}
+.share-icon-btn:hover { transform: translateY(-2px); filter: brightness(1.1); }
+.share-icon-btn.fb      { background: #1877f2; color: #fff; }
+.share-icon-btn.twitter { background: #000; color: #fff; }
+.share-icon-btn.threads { background: #1a1a1a; color: #fff; border: 1px solid #333; }
+.share-icon-btn.line    { background: #06c755; color: #fff; }
+.share-icon-btn.ig      { background: linear-gradient(45deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888); color: #fff; }
+.share-icon-btn.ibon    { background: #e60012; color: #fff; }
+
+/* =========================
+   CODEX — 統戰名冊
+========================= */
+.codex-box { max-width: 620px !important; }
+#codexProgress { color: #ffd700; font-size: 12px; margin-bottom: 10px; font-weight: 700; }
+#codexGrid { display: flex; flex-wrap: wrap; gap: 7px; }
+.codex-card {
+  padding: 7px 10px; border-radius: 2px;
+  font-size: 11px; font-weight: 700;
+  display: flex; flex-direction: column;
+  align-items: center; gap: 3px;
+  width: 80px; text-align: center;
+  transition: all 0.2s;
+}
+.codex-card.got {
+  background: linear-gradient(135deg, #8b0000, #cc0000);
+  border: 1px solid #ffd700; color: #ffd700;
+  box-shadow: 0 0 5px rgba(255,215,0,0.3);
+  cursor: pointer;
+}
+.codex-card.got:hover { transform: translateY(-2px) scale(1.05); box-shadow: 0 0 12px rgba(255,215,0,0.5); }
+.codex-card.locked { background: #0a0000; border: 1px solid #2a0000; color: #2a0000; }
+.codex-emoji { font-size: 20px; line-height: 1; }
+.codex-name  { font-size: 10px; line-height: 1.3; word-break: break-all; }
+.char-quote {
+  background: #0f0000; border-left: 3px solid #cc0000;
+  padding: 8px 12px; border-radius: 0 2px 2px 0;
+  font-size: 12px; line-height: 1.65; color: #cc9999;
+}
+
+/* =========================
+   TOAST
+========================= */
+#toastContainer {
+  position: fixed; top: 14px; right: 14px;
+  z-index: 99998; display: flex; flex-direction: column;
+  gap: 6px; pointer-events: none;
+}
+.toast {
+  background: #0a0000; border: 1px solid #cc0000;
+  border-left: 3px solid #ffd700;
+  color: #ffd700; padding: 8px 14px; border-radius: 2px;
+  font-size: 12px; font-weight: 700;
+  opacity: 0; transform: translateX(40px);
+  transition: all 0.3s ease; max-width: 260px;
+}
+.toast.show { opacity: 1; transform: translateX(0); }
+.toast.hide { opacity: 0; transform: translateX(40px); }
+
+/* =========================
+   RAID OVERLAY — 媒體抓包事件
+========================= */
+#raidOverlay {
+  position: fixed; inset: 0; z-index: 999999;
+  background: rgba(0,0,0,0.96);
+  display: none; justify-content: center; align-items: center;
+}
+#raidOverlay.active { display: flex; animation: raidFlash 0.3s ease; }
+@keyframes raidFlash {
+  0%   { background: rgba(180,0,0,0.95); }
+  20%  { background: rgba(0,0,0,0.96); }
+  40%  { background: rgba(180,0,0,0.7); }
+  100% { background: rgba(0,0,0,0.96); }
+}
+#raidBox { text-align: center; padding: 40px; max-width: 420px; }
+#raidIcon { font-size: 60px; animation: raidPulse 0.5s infinite alternate; }
+@keyframes raidPulse { from { transform: scale(1); } to { transform: scale(1.15); } }
+#raidTitle { 
+  font-size: 28px; font-weight: 900; color: #ffd700; 
+  margin: 12px 0 8px; letter-spacing: 3px; 
+  text-shadow: 0 0 20px rgba(255,215,0,0.5);
+}
+#raidSub   { color: #cc6666; font-size: 14px; line-height: 1.8; margin-bottom: 20px; }
+#raidBar   { width: 100%; height: 5px; background: #0a0000; border-radius: 0; overflow: hidden; margin-bottom: 14px; border: 1px solid #8b0000; }
+#raidBarFill { height: 100%; width: 0%; background: linear-gradient(90deg,#cc0000,#ffd700); }
+#raidMsg   { color: #663333; font-size: 11px; font-family: monospace; animation: blink 1s infinite; }
+@keyframes blink { 50% { opacity: 0; } }
+
+/* =========================
+   LOCK SCREEN — 最高忠誠境界
+========================= */
+#lockScreen {
+  display: none; position: fixed; inset: 0;
+  background: radial-gradient(circle at top, #1a0000, #000);
+  z-index: 999999; flex-direction: column;
+  align-items: center; justify-content: center;
+  color: white; text-align: center; padding: 30px;
+}
+#lockScreen::before {
+  content: "★ 中共統戰器官銀行 ★";
+  color: #ffd700; font-size: 14px; letter-spacing: 3px;
+  margin-bottom: 20px; opacity: 0.7;
+}
+#lockScreen h1 { color: #ffd700; font-size: clamp(20px,5vw,38px); margin-bottom: 10px; letter-spacing: 2px; }
+#lockScreen p  { color: #cc7777; font-size: 13px; margin-bottom: 24px; max-width: 440px; line-height: 1.9; }
+.lock-btns { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
+.lock-btns button { 
+  padding: 10px 22px; border: none; cursor: pointer; 
+  font-size: 14px; font-weight: 700; border-radius: 2px; 
+}
+#pardonBtn { 
+  background: linear-gradient(135deg,#ffd700,#b8860b); 
+  color: #1a0000; 
+  border: 1px solid #ffd700;
+}
+#resetBtn  { 
+  background: #1a0000; color: #cc4444; 
+  border: 1px solid #8b0000;
+}
+
+/* =========================
+   MOBILE
+========================= */
+@media (max-width: 768px) {
+  html, body { overflow: auto; height: auto; }
+  .panel { height: auto; overflow: visible; }
+  #receiptContainer { overflow: visible; }
+  .buttons button { flex: 1 1 calc(33% - 7px); min-width: 90px; font-size: 12px; padding: 8px 6px; }
+  .receipt { width: 100%; max-width: 400px; }
+  .share-grid { grid-template-columns: repeat(2, 1fr); }
+  #toastContainer { top: 8px; right: 8px; left: 8px; }
+  .toast { max-width: 100%; }
+}
+@media (max-width: 480px) {
+  .buttons button { flex: 1 1 calc(50% - 7px); }
+}
