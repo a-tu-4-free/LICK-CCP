@@ -2,7 +2,7 @@
 
 > 兩面人器官摘取系統｜台灣政治嘲諷互動網頁
 
-[![Live Demo](https://img.shields.io/badge/🔗_立即體驗-統戰器官銀行-cc0000?style=for-the-badge)](https://a-tu-4-free.github.io/lick-ccp/)
+[![Live Demo](https://img.shields.io/badge/🔗_立即體驗-統戰器官銀行-cc0000?style=for-the-badge)](https://a-tu-4-free.github.io/LICK-CCP/)
 ![Made with](https://img.shields.io/badge/Made_with-HTML_+_JS-1a0000?style=for-the-badge)
 ![License](https://img.shields.io/badge/License-MIT-8b0000?style=for-the-badge)
 
