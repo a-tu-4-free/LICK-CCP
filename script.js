@@ -15,7 +15,7 @@ let gameState = {
     chaos: 0,
     stability: 100,
     level: 1,
-    doubleFace: false,       // 換臉模式（原 doubleSun）
+    doubleFace: false,       // 屠城模式（原 doubleSun）
     jackpotUsed: false,
     lock: false,
     totalGenerated: 0,
@@ -82,7 +82,7 @@ function maybeRaid() {
 // ==================== EASTER EGGS ====================
 function checkEasterEgg(money) {
     if (gameState.totalGenerated === 10 && typeof window.showToast === "function")
-        window.showToast("🥚 你已換臉10次，王滬寧點頭了");
+        window.showToast("🥚 你已屠城10次，王滬寧點頭了");
     if (money % 1000 === 0 && money > 0 && typeof window.showToast === "function")
         window.showToast("💯 整千金額！北京：「這個人懂規矩」");
     const now = new Date();
@@ -111,11 +111,11 @@ function createReceipt() {
     content.push(fillTemplate(rand(memes.usages   || [])));
 
     if (gameState.doubleFace) {
-        // 換臉模式：台灣說 vs 北京說
+        // 屠城模式：台灣說 vs 北京說
         const twSay = rand(memes.tw_says || []);
         const bjSay = rand(memes.bj_says || []);
-        content.push(`<div class="face-tw"><div class="face-label">🇹🇼 對台灣說</div>${twSay}</div>`);
-        content.push(`<div class="face-bj"><div class="face-label">🔴 對北京說</div>${bjSay}</div>`);
+        content.push(`<div class="face-tw"><div class="face-label">🇹🇼 台灣說法</div>${twSay}</div>`);
+        content.push(`<div class="face-bj"><div class="face-label">🔴 北京說法</div>${bjSay}</div>`);
         gameState.doubleFaceUsed = true;
     }
 
@@ -192,7 +192,7 @@ function render() {
 
     // HUD
     const safeSet = (id, v) => { const el = document.getElementById(id); if (el) el.innerText = v; };
-    safeSet("mode",          gameState.mode === "tangkou" ? "換臉" : "摘取");
+    safeSet("mode",          gameState.mode === "tangkou" ? "屠城" : "摘取");
     safeSet("level",         gameState.level);
     safeSet("chaos",         gameState.chaos);
     safeSet("stabilityText", Math.max(0, gameState.stability));
@@ -215,14 +215,14 @@ window.generate = function () {
 window.setMode = function (m) {
     gameState.mode = m;
     const safeSet = (id, v) => { const el = document.getElementById(id); if (el) el.innerText = v; };
-    safeSet("mode", m === "tangkou" ? "換臉" : "摘取");
+    safeSet("mode", m === "tangkou" ? "屠城" : "摘取");
 };
 
 window.toggleDoubleSun = function () {
     gameState.doubleFace = !gameState.doubleFace;
     const btn = document.getElementById("doubleSunBtn");
     if (btn) {
-        btn.innerText = gameState.doubleFace ? "🎭 換臉模式 ON" : "🎭 換臉模式 OFF";
+        btn.innerText = gameState.doubleFace ? "🎭 屠城模式 ON" : "🎭 屠城模式 OFF";
         btn.classList.toggle("active", gameState.doubleFace);
     }
     if (memesReady) render();
@@ -241,10 +241,10 @@ window.upgrade = function () {
     }
 
     const tips = [
-        "Lv2：換臉技術優化中……",
+        "Lv2：屠城技術優化中……",
         "Lv3：統戰積分加速，台灣媒體開始注意你",
         "Lv4：你已進入國台辦觀察名單",
-        "Lv5：🔴 解鎖換臉梗！被抓包機率上升！",
+        "Lv5：🔴 解鎖屠城梗！被抓包機率上升！",
         "Lv6：偽裝成功率持續崩潰中",
         "Lv7：王滬寧的眼神開始不對勁",
         "Lv8：系統警告：你知道太多了",
